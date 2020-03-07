@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<button onclick="createImg()">创建龙宝宝</button>
+	<div id="main">
+		
+	</div>
+</body>
+<script type="text/javascript">
+	function dragon(imgSrc,x,y){
+		this.enemyNode = document.createElement("img");
+		this.enemyNode.src=imgSrc;
+		this.enemyNode.style.position = "absolute";
+		this.enemyNode.style.top = x+"px";
+		this.enemyNode.style.left = y+"px";
+	}
+	function createImg(){
+		var img = document.createElement("img");
+		img.src = "images/dragon/small/move.gif";
+	}
+
+	var main = document.getElementById("main");
+	var dragonSmall = new dragon("images/dragon/small/move.gif",100,300);	
+	main.appendChild(dragonSmall.enemyNode);
+	var dragonBig = new dragon("images/dragon/big/move.gif",300,300);
+	main.appendChild(dragonBig.enemyNode);
+	document.body.onkeydown = function(){
+		
+	}
+</script>
+</html>
