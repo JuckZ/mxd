@@ -1,0 +1,12 @@
+version: '3'
+services:
+  blog:
+    build: .
+    image: mxd
+    ports:
+     - "4020:4020"
+    container_name: mxd
+    volumes: 
+     - "/var/lib/jenkins/workspace/mxd:/var/mxd"
+    working_dir: /var/mxd
+    command: ["http-server","-p","4020"]
