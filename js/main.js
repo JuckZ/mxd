@@ -10,7 +10,7 @@ tip.style.display = 'none'
 tip.style.opacity = 1
 var readyMain = document.getElementById('readyMain')
 var mainHeight /*main的高度*/
-var mainWidth = 1536 /*main的宽度*/
+var mainWidth
 var main = document.getElementById('main')
 var enemyList = new Array() /*敌人列队*/
 var ballList = new Array() /*龙魔法列队*/
@@ -275,70 +275,6 @@ tipN.onmouseup = function () {
   tipN.src = 'images/ui/tipN.gif'
   continueGame()
 }
-// tipY.onmouseup=function(){
-//   btMouseClick.play();
-//   tipY.src="images/ui/tipY.gif";
-//   var input=document.getElementById("input");
-//   var username=input.value;
-//   function addElementLi() {
-//     var ul = document.getElementById("ranking_list_id");
-// 　　//添加 li
-// 　　var li = document.createElement("li");
-// 　　//设置 li 属性，如 id
-// 　　li.setAttribute("id", gold);
-// 　　li.innerHTML = "--"+username+"--"+gold+"分";
-// 　　ul.appendChild(li);
-// 　　}
-// 　addElementLi("parentUl");
-// 　var ul = document.getElementById("ranking_list_id");
-// var oLi=document.getElementsByTagName('li');
-
-// var arr=[];
-//   //将<li>标签放入空的arr数组中
-//   for(var i=0;i<oLi.length;i++){
-//     arr[i]=oLi[i];
-//   }
-//   //sort排序，数组中每个元素都是一个<li>,所以要用innerHTML
-//   arr.sort(function(li1,li2){
-//     var n1=parseInt(li1.id);
-//     var n2=parseInt(li2.id);
-//     return n2-n1;
-//   })
-//   //通过appendChild进行排序
-//   for(var i=0;i<arr.length;i++){
-//     ul.appendChild(arr[i]);
-//     // ul.appendChild(arr[arr.length-i-1]);
-//   }
-
-//   var tip=document.getElementById("tip");
-//   var nameSure=document.getElementById("nameSure");
-//   var nameCancel=document.getElementById("nameCancel");
-//   var readyMain=document.getElementById("readyMain");
-//   var main=document.getElementById("main");
-//   var user=document.getElementById("user");
-//   var first=document.getElementById("first");
-//   first.style.display="block";
-//   tip.style.display="none";
-//   main.style.display="none";
-//   user.style.display="block";
-//   nameSure.style.display="inline-block";
-//   nameCancel.style.display="inline-block";
-//   readyMain.style.display="block";
-//   ss.innerHTML="0分";
-//   scoreDiv.innerHTML="0 分";
-//   score_1.innerHTML="0 分";
-//   gold=0;
-
-// };
-// var c_d=document.getElementById("c_d");
-// var ranking_list_id=document.getElementById("ranking_list_id");
-
-// c_d.onclick=function(){
-//   while(ranking_list_id.hasChildNodes()) //当div下还存在子节点时 循环继续
-//   {
-//     ranking_list_id.removeChild(ranking_list_id.firstChild);
-//   }
-// };
 
 backBtn.onmouseover = function () {
   BtMouseOver.play()
@@ -358,11 +294,8 @@ backBtn.onmouseup = function () {
 }
 /*main自适应高度，最低600*/
 window.onload = function () {
-  mainHeight = Math.max(
-    document.documentElement.clientHeight,
-    document.body.offsetHeight,
-    600
-  ) /*保证最低高度为600*/
+  mainWidth = document.documentElement.clientWidth
+  mainHeight = document.documentElement.clientHeight
   main.style.height = mainHeight + 'px'
 }
 
@@ -937,7 +870,7 @@ function enemyMove() {
     if (!enemyList[i].isDead) {
       if (enemyList[i].status == 0) {
         enemyList[i].move()
-        if (parseInt(enemyList[i].enemyNode.style.right) > 1536) {
+        if (parseInt(enemyList[i].enemyNode.style.right) > mainWidth) {
           /*消失*/
           main.removeChild(enemyList[i].enemyNode)
           enemyList.splice(i, 1)
@@ -1044,7 +977,7 @@ function ballMove() {
     if (!ballList[i].isDead) {
       if (ballList[i].status == 0) {
         ballList[i].move()
-        if (parseInt(ballList[i].ballNode.style.left) > 1536) {
+        if (parseInt(ballList[i].ballNode.style.left) > mainWidth) {
           /*离开视野后 魔法弹消失*/
           main.removeChild(ballList[i].ballNode)
           ballList.splice(i, 1)
@@ -1063,7 +996,7 @@ function ballMoveBoss() {
     if (!bossList[i].isDead) {
       if (bossList[i].status == 0) {
         bossList[i].move()
-        if (parseInt(bossList[i].ballBossNode.style.right) > 1536) {
+        if (parseInt(bossList[i].ballBossNode.style.right) > mainWidth) {
           /*BOSS魔法弹消失*/
           main.removeChild(bossList[i].ballBossNode)
           bossList.splice(i, 1)
@@ -1287,13 +1220,11 @@ var mapSelect = document.getElementById('mapSelect')
 var skinSelect = document.getElementById('skinSelect')
 var modeSelect = document.getElementById('modeSelect')
 var levelSelect = document.getElementById('levelSelect')
-var rankSelect = document.getElementById('rankSelect')
 
 var mapContainer = document.getElementById('mapContainer')
 var myCarousel = document.getElementById('myCarousel')
 var modeContainer = document.getElementById('modeContainer')
 var levelContaienr = document.getElementById('levelContaienr')
-var rankContainer = document.getElementById('rankContainer')
 
 var lastMapBtn = document.getElementById('lastMapBtn')
 var nextMapBtn = document.getElementById('nextMapBtn')
@@ -1334,11 +1265,6 @@ levelSelect.onclick = function () {
   // 显示难度框
   settingContainerHide()
   levelContainer.style.display = 'block'
-}
-rankSelect.onclick = function () {
-  // 显示排行框
-  settingContainerHide()
-  rankContainer.style.display = 'block'
 }
 
 // 菜单子选项的内容
@@ -1394,4 +1320,9 @@ sureBtn.onclick = function () {
   dragonStrokes = document.getElementsByName('newSkillN')[0].value
   newHP = document.getElementsByName('newHP')[0].value || 10
   newWho = document.getElementsByName('newWho')[0].value
+}
+
+window.onresize = () => {
+  alert('调整窗口大小将重新加载游戏')
+  window.location.reload()
 }
